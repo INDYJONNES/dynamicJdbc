@@ -1,0 +1,10 @@
+spark-submit --class com.telkom.indiee.dynamicJdbc --master yarn --deploy-mode client --name "Dynamic JDBC Test" --driver-class-path /var/lib/sqoop/ojdbc8-12.2.0.1.jar --jars /var/lib/sqoop/ojdbc8-12.2.0.1.jar dynamicjdbc_2.11-0.1.jar "melvin_consumer" "mobile_postpaid_eligible_base" "UT_ELIGIBLE_BASE_TEST" "append"
+
+
+val df = spark.read.format("jdbc").option("url","jdbc:oracle:thin:@fpuncdb1.telkom.co.za:1527:unicadb").option("dbtable","UT_ELIGIBLE_BASE_TEST").option("user","campmart").option("password","campmart").option("driver","oracle.jdbc.driver.OracleDriver").load
+
+
+
+submit code
+spark-submit --class com.telkom.indiee.dynamicJdbc --files spark.conf,log4j.properties --conf 'spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties -Dlogfile.name=dynamic_driver' --conf 'spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties -Dlogfile.name=dynamic_executor' --master yarn --deploy-mode client --name "Dynamic JDBC Test" --driver-class-path /var/lib/sqoop/ojdbc8-12.2.0.1.jar --jars /var/lib/sqoop/ojdbc8-12.2.0.1.jar dynamicjdbc_2.11-0.1.jar "melvin_consumer" "mobile_postpaid_eligible_basee" "UT_ELIGIBLE_BASE_TEST" "overwrite"
+
